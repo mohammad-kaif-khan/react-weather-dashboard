@@ -1,0 +1,50 @@
+import { useSelector } from "react-redux";
+
+const Forecast = () => {
+  const weather = useSelector((state) => state.weather.data);
+
+  if (!weather || !weather.daily) {
+    return null;
+  }
+
+  const dates = weather.daily.time;
+  const maxTemps = weather.daily.temperature_2m_max;
+  const minTemps = weather.daily.temperature_2m_min;
+
+  return (
+    <div className="mt-8 w-full max-w-6xl px-4">
+      <h2 className="text-2xl font-bold text-center mb-6">
+        7-Day Forecast
+      </h2>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+        {dates.map((date, index) => (
+          <div
+            key={date}
+            className="bg-white/20 backdrop-blur-md rounded-xl p-4 text-center shadow-lg"
+          >
+            <p className="font-semibold">
+              {new Date(date).toLocaleDateString("en-US", {
+                weekday: "short",
+              })}
+            </p>
+
+            <div className="text-4xl my-3">
+              🌤️
+            </div>
+
+            <p className="font-bold">
+              {maxTemps[index]}°C
+            </p>
+
+            <p className="text-sm opacity-80">
+              {minTemps[index]}°C
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Forecast;
